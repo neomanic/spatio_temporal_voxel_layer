@@ -103,7 +103,8 @@ rgbd_obstacle_layer:
     observation_persistence: 0.0 #default 0, use all measurements taken during now-value, 0=latest 
     inf_is_valid: false          #default false, for laser scans
     clear_after_reading: true    #default false, clear the buffer after the layer gets readings from it
-    voxel_filter: true           #default off, apply voxel filter to sensor, recommend on 
+    voxel_filter: true           #default off, apply voxel filter to sensor, recommend on
+    voxel_min_points: 1          #default 1, requires a minimum number of points, good for noisy camera
   rgbd1_clear:
     data_type: PointCloud2
     topic: camera1/depth/points

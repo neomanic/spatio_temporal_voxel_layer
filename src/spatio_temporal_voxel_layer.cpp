@@ -148,6 +148,7 @@ void SpatioTemporalVoxelLayer::onInitialize(void)
     double max_obstacle_height, min_z, max_z, vFOV, hFOV, decay_acceleration;
     std::string topic, sensor_frame, data_type;
     bool inf_is_valid, clearing, marking, voxel_filter, clear_after_reading;
+    double voxel_min_size, voxel_min_points;
 
     source_node.param("topic", topic, source);
     source_node.param("sensor_frame", sensor_frame, std::string(""));
@@ -171,6 +172,8 @@ void SpatioTemporalVoxelLayer::onInitialize(void)
     source_node.param("decay_acceleration", decay_acceleration, 0.);
     // performs an approximate voxel filter over the data to reduce
     source_node.param("voxel_filter", voxel_filter, false);
+    // require a minimum number of points in the data per voxel
+    source_node.param("voxel_min_points", voxel_min_points, 1.);
     // clears measurement buffer after reading values from it
     source_node.param("clear_after_reading", clear_after_reading, false);
     // model type - default depth camera frustum model
@@ -205,7 +208,8 @@ void SpatioTemporalVoxelLayer::onInitialize(void)
         obstacle_range, *tf_, _global_frame,                             \
         sensor_frame, transform_tolerance, min_z, max_z, vFOV,           \
         hFOV, decay_acceleration, marking, clearing, _voxel_size,        \
-        voxel_filter, enabled, clear_after_reading, model_type)));
+        voxel_filter, voxel_min_points, enabled, clear_after_reading,    \
+        model_type)));
 
     // Add buffer to marking observation buffers
     if (marking == true)

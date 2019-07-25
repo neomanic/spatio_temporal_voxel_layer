@@ -43,7 +43,7 @@
 #include <spatio_temporal_voxel_layer/measurement_reading.h>
 // PCL
 #include <pcl_ros/transforms.h>
-#include <pcl/filters/approximate_voxel_grid.h>
+#include <pcl/filters/voxel_grid.h>
 // STL
 #include <vector>
 #include <list>
@@ -90,6 +90,7 @@ public:
                     const bool& clearing,                   \
                     const double& voxel_size,               \
                     const bool& voxel_filter,               \
+                    const double& voxel_min_points,         \
                     const bool& enabled,                    \
                     const bool& clear_buffer_after_reading, \
                     const ModelType& model_type);
@@ -127,7 +128,7 @@ private:
   std::list<observation::MeasurementReading> _observation_list;
   double _min_obstacle_height, _max_obstacle_height, _obstacle_range, _tf_tolerance;
   double _min_z, _max_z, _vertical_fov, _horizontal_fov, _decay_acceleration;
-  double _voxel_size;
+  double _voxel_size, _voxel_min_points;
   bool _marking, _clearing, _voxel_filter, _clear_buffer_after_reading, _enabled;
   ModelType _model_type;
 };

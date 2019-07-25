@@ -60,6 +60,7 @@ MeasurementBuffer::MeasurementBuffer(const std::string& topic_name,          \
                                      const bool& clearing,                   \
                                      const double& voxel_size,               \
                                      const bool& voxel_filter,               \
+                                     const double& voxel_min_points,         \
                                      const bool& enabled,                    \
                                      const bool& clear_buffer_after_reading, \
                                      const ModelType& model_type) :
@@ -73,6 +74,7 @@ MeasurementBuffer::MeasurementBuffer(const std::string& topic_name,          \
     _vertical_fov(vFOV), _horizontal_fov(hFOV),
     _decay_acceleration(decay_acceleration), _marking(marking),
     _clearing(clearing), _voxel_size(voxel_size), _voxel_filter(voxel_filter),
+    _voxel_min_points(voxel_min_points),
     _enabled(enabled), _clear_buffer_after_reading(clear_buffer_after_reading),
     _model_type(model_type)
 {
@@ -166,11 +168,12 @@ void MeasurementBuffer::BufferPCLCloud(const \
 
       // minimize information needed to process
       cld_global->clear();
-      pcl::ApproximateVoxelGrid<pcl::PointXYZ> sor1;
+      pcl::VoxelGrid<pcl::PointXYZ> sor1;
       sor1.setInputCloud (cld_no_nan);
       sor1.setLeafSize ((float)_voxel_size,
                         (float)_voxel_size,
                         (float)_voxel_size);
+      sor1.setMinimumPointsNumberPerVoxel ((int)_voxel_min_points);
       sor1.filter (*cld_global);
     }
 
